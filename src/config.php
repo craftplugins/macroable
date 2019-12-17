@@ -2,11 +2,6 @@
 
 return [
     /**
-     * 'globalName' => mixed|callable
-     */
-    'globals' => [],
-
-    /**
      * 'filterName' => callable
      */
     'filters' => [],
@@ -15,4 +10,9 @@ return [
      * 'functionName' => callable
      */
     'functions' => [],
+
+    /**
+     * 'globalName' => mixed|callable
+     */
+    'globals' => [],
 ];
