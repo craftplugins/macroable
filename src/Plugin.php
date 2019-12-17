@@ -34,7 +34,7 @@ class Plugin extends \craft\base\Plugin
         static::$instance = $this;
 
         $this->setComponents([
-            MacroableService::class,
+            'macroable' => MacroableService::class,
         ]);
 
         Craft::$app->view->registerTwigExtension(
