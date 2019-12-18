@@ -4,8 +4,12 @@ namespace craftplugins\macroable;
 
 use Craft;
 use craft\base\Plugin;
+use craft\helpers\FileHelper;
 use craftplugins\macroable\support\Collection;
 use craftplugins\macroable\twigextensions\MacroableTwigExtension;
+use ReflectionFunction;
+use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  * Class Macroable
@@ -46,6 +50,7 @@ class Macroable extends Plugin
 
     /**
      * @inheritdoc
+     * @throws \yii\base\ErrorException
      */
     public function init()
     {
@@ -56,6 +61,10 @@ class Macroable extends Plugin
         Craft::$app->getView()->registerTwigExtension(
             new MacroableTwigExtension()
         );
+
+        if (Craft::$app->getConfig()->getGeneral()->devMode) {
+            $this->generateCompiledTwigExtension();
+        }
     }
 
     /**
@@ -110,5 +119,65 @@ class Macroable extends Plugin
         }
 
         return $this->config = Craft::$app->config->getConfigFromFile('macroable');
+    }
+
+    /**
+     * @throws \yii\base\ErrorException
+     */
+    protected function generateCompiledTwigExtension()
+    {
+        $fileName = 'CompiledMacroableTwigExtension.php';
+        $templatePath = self::getBasePath() . DIRECTORY_SEPARATOR . 'twigextensions' . DIRECTORY_SEPARATOR . $fileName . '.template';
+        $filePath = Craft::$app->getPath()->getCompiledClassesPath() . $fileName;
+
+        $globals = $this->getGlobals()->mapWithKeys(function ($value, $key) {
+            $value = value($value);
+
+            return "        '{$key}' => {$value}";
+        });
+
+        $functions = $this->getFunctions()->mapWithKeys(function ($value, $key) {
+            $signature = $this->getCallableSignature($value);
+
+            return "        '{$key}' => {$signature}";
+        });
+
+        $filters = $this->getFilters()->mapWithKeys(function ($value, $key) {
+            $signature = $this->getCallableSignature($value);
+
+            return "        '{$key}' => {$signature}";
+        });
+
+        $template = file_get_contents($templatePath);
+        $contents = str_replace(
+            $template,
+            ['/* GLOBALS */', '/* FUNCTIONS */', '/* FILTERS */'],
+            [$globals, $functions, $filters]
+        );
+
+        FileHelper::writeToFile($filePath, $contents);
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return string
+     * @throws \ReflectionException
+     */
+    protected function getCallableSignature(callable $callable)
+    {
+        if (is_array($callable)) {
+            $reflection = new ReflectionMethod(...$callable);
+        } else {
+            $reflection = new ReflectionFunction($callable);
+        }
+
+        $fileContents = file_get_contents($reflection->getFileName());
+        $fileLines = explode(PHP_EOL, $fileContents);
+        $methodLines = array_slice($fileLines, $reflection->getStartLine() - 1, $reflection->getEndLine());
+        $method = implode(PHP_EOL, $methodLines);
+        preg_match('/([^{]+)/s', $method, $match);
+
+        return trim($match[0]);
     }
 }

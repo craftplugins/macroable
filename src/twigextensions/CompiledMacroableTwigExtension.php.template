@@ -1,0 +1,33 @@
+<?php
+
+namespace craftplugins\macroable\twigextensions;
+
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+
+/**
+ * Class CompiledMacroableTwigExtension
+ */
+class CompiledMacroableTwigExtension extends AbstractExtension implements GlobalsInterface
+{
+    public function getGlobals()
+    {
+        return [
+/* GLOBALS */
+        ];
+    }
+
+    public function getFunctions()
+    {
+        return [
+/* FUNCTIONS */
+        ];
+    }
+
+    public function getFilters()
+    {
+        return [
+/* FILTERS */
+        ];
+    }
+}
