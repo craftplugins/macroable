@@ -46,7 +46,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
             ->macroable
             ->functions
             ->mapWithKeys(function ($value, $key) {
-                return new TwigFunction($key, $value);
+                return [$key => new TwigFunction($key, $value)];
             })
             ->toArray();
     }
@@ -60,7 +60,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
             ->macroable
             ->filters
             ->mapWithKeys(function ($value, $key) {
-                return new TwigFilter($key, $value);
+                return [$key => new TwigFilter($key, $value)];
             })
             ->toArray();
     }
