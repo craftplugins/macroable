@@ -53,7 +53,7 @@ class Macroable extends Plugin
 
         static::$instance = $this;
 
-        Craft::$app->view->registerTwigExtension(
+        Craft::$app->getView()->registerTwigExtension(
             new MacroableTwigExtension()
         );
     }
