@@ -6,7 +6,7 @@
     "license": "proprietary",
     "require": {
         "craftcms/cms": "^3.0.0",
-        "tightenco/collect": "^5.8 | ^6.7"
+        "tightenco/collect": "^5.8 || ^6.7"
     },
     "autoload": {
         "psr-4": {
