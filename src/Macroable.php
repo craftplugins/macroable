@@ -96,7 +96,7 @@ class Macroable extends Plugin
         }
 
         return $this->filters = Collection::makeFromConfig(
-            $this->getConfig()['globals']
+            $this->getConfig()['filters']
         );
     }
 
