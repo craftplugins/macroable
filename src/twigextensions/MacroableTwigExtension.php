@@ -2,7 +2,6 @@
 
 namespace craftplugins\macroable\twigextensions;
 
-use craftplugins\macroable\library\Collection;
 use craftplugins\macroable\Plugin;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -32,9 +31,10 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
         return Plugin::$instance
             ->macroable
             ->globals
-            ->map(function ($value, $key, Collection $collection) {
-                return $collection->value($key);
-            });
+            ->map(function ($value) {
+                return value($value);
+            })
+            ->toArray();
     }
 
     /**
@@ -45,9 +45,10 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
         return Plugin::$instance
             ->macroable
             ->functions
-            ->map(function ($value, $key) {
+            ->mapWithKeys(function ($value, $key) {
                 return new TwigFunction($key, $value);
-            });
+            })
+            ->toArray();
     }
 
     /**
@@ -58,8 +59,9 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
         return Plugin::$instance
             ->macroable
             ->filters
-            ->map(function ($value, $key) {
+            ->mapWithKeys(function ($value, $key) {
                 return new TwigFilter($key, $value);
-            });
+            })
+            ->toArray();
     }
 }
