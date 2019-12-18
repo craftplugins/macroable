@@ -1,6 +1,6 @@
 <?php
 
-namespace craftplugins\macroable\library;
+namespace craftplugins\macroable\support;
 
 /**
  * Class Collection

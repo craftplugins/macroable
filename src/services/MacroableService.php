@@ -4,7 +4,7 @@ namespace craftplugins\macroable\services;
 
 use Craft;
 use craft\base\Component;
-use craftplugins\macroable\library\Collection;
+use craftplugins\macroable\support\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -50,7 +50,7 @@ class MacroableService extends Component
     /**
      * @param $value
      *
-     * @return \craftplugins\macroable\library\Collection
+     * @return \craftplugins\macroable\support\Collection
      * @throws \ReflectionException
      */
     protected function collect($value): Collection
