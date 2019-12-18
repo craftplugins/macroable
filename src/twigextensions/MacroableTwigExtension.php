@@ -29,8 +29,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
     public function getGlobals()
     {
         return Macroable::$instance
-            ->macroable
-            ->globals
+            ->getGlobals()
             ->map(function ($value) {
                 return value($value);
             })
@@ -43,8 +42,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
     public function getFunctions()
     {
         return Macroable::$instance
-            ->macroable
-            ->functions
+            ->getFunctions()
             ->mapWithKeys(function ($value, $key) {
                 return [$key => new TwigFunction($key, $value)];
             })
@@ -57,8 +55,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
     public function getFilters()
     {
         return Macroable::$instance
-            ->macroable
-            ->filters
+            ->getFilters()
             ->mapWithKeys(function ($value, $key) {
                 return [$key => new TwigFilter($key, $value)];
             })
