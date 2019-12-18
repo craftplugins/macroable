@@ -3,6 +3,7 @@
 namespace craftplugins\macroable;
 
 use Craft;
+use craft\base\Plugin;
 use craftplugins\macroable\services\MacroableService;
 use craftplugins\macroable\twigextensions\MacroableTwigExtension;
 
@@ -12,7 +13,7 @@ use craftplugins\macroable\twigextensions\MacroableTwigExtension;
  * @property MacroableService $macroable
  * @package craftplugins\macroable
  */
-class Plugin extends \craft\base\Plugin
+class Macroable extends Plugin
 {
     /**
      * @var string

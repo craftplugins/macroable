@@ -2,7 +2,7 @@
 
 namespace craftplugins\macroable\twigextensions;
 
-use craftplugins\macroable\Plugin;
+use craftplugins\macroable\Macroable;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
@@ -28,7 +28,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
      */
     public function getGlobals()
     {
-        return Plugin::$instance
+        return Macroable::$instance
             ->macroable
             ->globals
             ->map(function ($value) {
@@ -42,7 +42,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
      */
     public function getFunctions()
     {
-        return Plugin::$instance
+        return Macroable::$instance
             ->macroable
             ->functions
             ->mapWithKeys(function ($value, $key) {
@@ -56,7 +56,7 @@ class MacroableTwigExtension extends AbstractExtension implements GlobalsInterfa
      */
     public function getFilters()
     {
-        return Plugin::$instance
+        return Macroable::$instance
             ->macroable
             ->filters
             ->mapWithKeys(function ($value, $key) {
